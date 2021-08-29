@@ -1,0 +1,43 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width; initial-sclae=1.0" />
+    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <title>ShopApp</title>
+</head>
+<body>
+    @await Html.PartialAsync("_navbar")
+
+    <main class="my-5">
+        <div class="container">
+            @if (TempData["message"] != null)
+            {
+                var message = JsonConvert.DeserializeObject<AlertMessage>(TempData["message"] as String);
+
+<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="alert alert-@message.AlertType">
+            @message.Message
+        </div>
+    </div>
+</div>            }
+
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="py-5 bg-dark text-white text-center">
+        Shop App | 2021
+    </footer>
+    <script src="~/js/jquery-3.6.0.js"></script>
+    @RenderSection("Scripts", false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+
+
+</body>
+</html>
