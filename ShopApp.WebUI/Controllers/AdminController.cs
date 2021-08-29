@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ShopApp.Business.Abstract;
 using ShopApp.Entity;
 using ShopApp.WebUI.Models;
+using System;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopApp.WebUI.Controllers
 {
@@ -46,7 +50,7 @@ namespace ShopApp.WebUI.Controllers
 
                 if (_productService.Create(entity))
                 {
-                    CreateMessage("Kayıt Eklendi","success");
+                    CreateMessage("Kayıt Eklendi", "success");
                     return RedirectToAction("ProductList");
                 }
                 CreateMessage(_productService.ErrorMessage, "danger");
@@ -78,7 +82,9 @@ namespace ShopApp.WebUI.Controllers
                 Price = entity.Price,
                 Description = entity.Description,
                 ImageUrl = entity.ImageUrl,
-                SelectedCategories = entity.ProductCategories.Select(i=>i.Category).ToList()
+                IsApproved = entity.IsApproved,
+                IsHome = entity.IsHome,
+                SelectedCategories = entity.ProductCategories.Select(i => i.Category).ToList()
             };
 
             ViewBag.Categories = _categoryService.GetAll();
@@ -87,7 +93,7 @@ namespace ShopApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(ProductModel model, int[] categoryIds)
+        public async Task<IActionResult> EditProduct(ProductModel model, int[] categoryIds, IFormFile file)
         {
             if (ModelState.IsValid)
             {
@@ -102,18 +108,27 @@ namespace ShopApp.WebUI.Controllers
                 entity.Price = model.Price;
                 entity.Description = model.Description;
                 entity.ImageUrl = model.ImageUrl;
+                entity.IsApproved = model.IsApproved;
+                entity.IsHome = model.IsHome;
 
-                _productService.Update(entity, categoryIds);
-
-                var msg = new AlertMessage()
+                if (file != null)
                 {
-                    Message = $"{entity.Name} isimli ürün güncellendi.",
-                    AlertType = "warning"
-                };
+                    var extention = Path.GetExtension(file.FileName);
+                    var randomName = string.Format($"{Guid.NewGuid()}{extention}");
+                    entity.ImageUrl = randomName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", randomName);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
 
-                TempData["message"] = JsonConvert.SerializeObject(msg);
-
-                return RedirectToAction("ProductList");
+                if (_productService.Update(entity, categoryIds))
+                {
+                    CreateMessage("kayıt eklendi", "success");
+                    return RedirectToAction("ProductList");
+                }
+                CreateMessage(_productService.ErrorMessage, "danger");
             }
             ViewBag.Categories = _categoryService.GetAll();
             return View(model);
