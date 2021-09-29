@@ -1,28 +1,59 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
+@{ }
 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
         <a href="/" class="navbar-brand text-white fw-bold">ShopApp</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 me-auto">
+            <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
                 <li class="nav-item">
                     <a class="nav-link text-white" href="/products">Products</a>
                 </li>
+                @if (User.Identity.IsAuthenticated)
+                {
                 <li class="nav-item">
                     <a class="nav-link text-white" href="/product/create">Cart</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="/product/create">Orders</a>
                 </li>
+                    @if (User.IsInRole("admin"))
+                    { 
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/admin/products">Admin Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/admin/categories">Admin Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/admin/role/list">Admin Roles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/admin/user/list">Admin Users</a>
+                    </li>
+                    }
+                }
+            </ul>
+            <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                @if (User.Identity.IsAuthenticated)
+                {
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="/admin/products">Admin Products</a>
+                    <a class="nav-link text-white" href="/account/manage">@User.Identity.Name</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="/admin/categories">Admin Categories</a>
+                    <a class="nav-link text-white" href="/account/logout">Logout</a>
+                </li> 
+                }
+                else
+                {
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/account/login">Login</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/account/register">Register</a>
+                </li>
+                }
             </ul>
         </div>
     </div>

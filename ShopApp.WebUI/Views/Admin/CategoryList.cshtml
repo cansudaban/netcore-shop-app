@@ -7,38 +7,35 @@
         <a class="btn btn-primary btn-lg my-4" asp-controller="admin" asp-action="createcategory">Add Category</a>
         @if (Model.Categories.Count > 0)
         {
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="text-center">
-                        <td style="width:30px;">Id</td>
-                        <td>Name</td>
-                        <td style="width:135px;"></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Categories)
-                    {
-                        <tr>
-                            <td>@item.CategoryId</td>
-                            <td>@item.Name</td>
-                            <td>
-                                <a href="/admin/categories/@item.CategoryId" class="btn btn-primary btn-sm me-2">Edit</a>
-                                <form action="/admin/deletecategory" method="POST" class="d-inline">
-                                    <input type="hidden" name="categoryId" value="@item.CategoryId" />
-                                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
+<table class="table table-bordered">
+    <thead>
+        <tr class="text-center">
+            <td style="width:30px;">Id</td>
+            <td>Name</td>
+            <td style="width:135px;"></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Categories)
         {
-            <div class="alert alert-warning">
-                <h3>No Categories</h3>
-            </div>
-        }
+<tr>
+    <td>@item.CategoryId</td>
+    <td>@item.Name</td>
+    <td>
+        <a href="/admin/categories/@item.CategoryId" class="btn btn-primary btn-sm me-2">Edit</a>
+        <form action="/admin/deletecategory" method="POST" class="d-inline">
+            <input type="hidden" name="categoryId" value="@item.CategoryId" />
+            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+        </form>
+    </td>
+</tr>}
+    </tbody>
+</table> }
+            else
+            {
+<div class="alert alert-warning">
+    <h3>No Categories</h3>
+</div>}
 
     </div>
 </div>

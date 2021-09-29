@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width; initial-sclae=1.0" />
     <link rel="stylesheet" href="~/css/bootstrap/bootstrap.css" />
+    @RenderSection("Css", false)
     <link rel="stylesheet" href="~/css/style.css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <title>ShopApp</title>
@@ -16,15 +17,7 @@
         <div class="container">
             @if (TempData["message"] != null)
             {
-                var message = JsonConvert.DeserializeObject<AlertMessage>(TempData["message"] as String);
-
-<div class="row mb-3">
-    <div class="col-md-12">
-        <div class="alert alert-@message.AlertType">
-            @message.Message
-        </div>
-    </div>
-</div>            }
+<partial name="_ResultMessage" model="@(TempData.Get<AlertMessage>("message"))" />}
 
             @RenderBody()
         </div>
@@ -33,11 +26,10 @@
     <footer class="py-5 bg-dark text-white text-center">
         Shop App | 2021
     </footer>
-    <script src="~/js/jquery-3.6.0.js"></script>
-    @RenderSection("Scripts", false)
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
-
-
+    @RenderSection("Scripts", false)
 </body>
 </html>

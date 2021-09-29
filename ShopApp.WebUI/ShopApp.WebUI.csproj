@@ -8,7 +8,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210927132740_AddingIndetity.cs" />
+    <Compile Remove="Migrations\20210927132740_AddingIndetity.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ckeditor-full" Version="4.16.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
@@ -22,6 +28,10 @@
     <ProjectReference Include="..\ShopApp.Data\ShopApp.Data.csproj" />
     <ProjectReference Include="..\ShopApp.Entity\ShopApp.Entity.csproj" />
     <ProjectReference Include="..\ShopApp.Business\ShopApp.Business.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <PropertyGroup>
