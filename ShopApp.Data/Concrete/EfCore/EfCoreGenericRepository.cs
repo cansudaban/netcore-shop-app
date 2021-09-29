@@ -35,7 +35,7 @@ namespace ShopApp.Data.Concrete.EfCore
             return context.Set<TEntity>().Find(id);
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             using var context = new TContext();
             context.Entry(entity).State = EntityState.Modified;

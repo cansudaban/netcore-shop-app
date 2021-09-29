@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ShopApp.Business.Abstract;
 using ShopApp.WebUI.EmailServies;
 using ShopApp.WebUI.Extensions;
 using ShopApp.WebUI.Identity;
@@ -18,11 +19,13 @@ namespace ShopApp.WebUI.Controllers
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
         private IEmailSender _emailSender;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender)
+        private ICartService _cartService;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, ICartService cartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _cartService = cartService;
         }
 
         public IActionResult Login(string ReturnUrl = null)
@@ -143,6 +146,7 @@ namespace ShopApp.WebUI.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
+                _cartService.InitializeCart(user.Id);
                 TempData.Put("message", new AlertMessage()
                 {
                     Title = "Hesabınız onaylandı",

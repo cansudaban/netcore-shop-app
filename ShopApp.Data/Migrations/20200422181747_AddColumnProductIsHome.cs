@@ -2,7 +2,7 @@
 
 namespace ShopApp.Data.Migrations
 {
-    public partial class AddProductIsHome : Migration
+    public partial class AddColumnProductIsHome : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

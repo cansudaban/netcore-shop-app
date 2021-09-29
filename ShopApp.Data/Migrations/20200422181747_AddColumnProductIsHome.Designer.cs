@@ -9,8 +9,8 @@ using ShopApp.Data.Concrete.EfCore;
 namespace ShopApp.Data.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20210815203722_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200422181747_AddColumnProductIsHome")]
+    partial class AddColumnProductIsHome
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,16 +18,16 @@ namespace ShopApp.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3");
 
-            modelBuilder.Entity("ShopApp.Entity.Category", b =>
+            modelBuilder.Entity("shopapp.entity.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Url")
                         .HasColumnType("TEXT");
 
                     b.HasKey("CategoryId");
@@ -35,7 +35,7 @@ namespace ShopApp.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("ShopApp.Entity.Product", b =>
+            modelBuilder.Entity("shopapp.entity.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -50,18 +50,24 @@ namespace ShopApp.Data.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsHome")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.Property<double?>("Price")
                         .HasColumnType("REAL");
 
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("ShopApp.Entity.ProductCategory", b =>
+            modelBuilder.Entity("shopapp.entity.ProductCategory", b =>
                 {
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
@@ -76,15 +82,15 @@ namespace ShopApp.Data.Migrations
                     b.ToTable("ProductCategory");
                 });
 
-            modelBuilder.Entity("ShopApp.Entity.ProductCategory", b =>
+            modelBuilder.Entity("shopapp.entity.ProductCategory", b =>
                 {
-                    b.HasOne("ShopApp.Entity.Category", "Category")
+                    b.HasOne("shopapp.entity.Category", "Category")
                         .WithMany("ProductCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShopApp.Entity.Product", "Product")
+                    b.HasOne("shopapp.entity.Product", "Product")
                         .WithMany("ProductCategories")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)

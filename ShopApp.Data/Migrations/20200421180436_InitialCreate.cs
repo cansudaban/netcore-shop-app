@@ -13,7 +13,7 @@ namespace ShopApp.Data.Migrations
                     CategoryId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,6 +27,7 @@ namespace ShopApp.Data.Migrations
                     ProductId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: true),
